@@ -1,0 +1,29 @@
+name: Daily Contribution
+
+on:
+  schedule:
+    - cron: "30 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Update activity
+        run: |
+          echo "Last activity: $(date -u '+%Y-%m-%d')" > activity.txt
+
+      - name: Commit and push
+        run: |
+          git config user.name "Somya Sharma"
+          git config user.email "YOUR_GITHUB_SOMYA6422@GMAIL.COM"
+          git add activity.txt
+          git commit -m "Daily activity update" || exit 0
+          git push
